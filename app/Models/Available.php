@@ -10,8 +10,6 @@ class Available extends Model
     use HasFactory;
 
     protected $table = 'available';
-
-    protected $fillable = [
-        'date_id', 'start_date', 'end_date'
-    ];
+    protected $fillable = ['date_id', 'start_time', 'end_time'];
+    protected $dates = ['start_time', 'end_time'];
 }

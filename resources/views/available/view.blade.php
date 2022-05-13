@@ -10,7 +10,10 @@
                     <div class="row">
                         <div class="col-lg-12 margin-tb">
                             <div class="float-left">
-                                <h2>Dates</h2>
+                                @php
+                                    $days = $date->day->format("l jS F Y");
+                                @endphp
+                                <h2>{{ $days }}</h2>
                             </div>
                         </div>
                     </div>
@@ -32,7 +35,7 @@
                                 {{ Session::get('error-message') }}
                             </div>
                         @endif
-                        <form action="{{ route('date.deleteAll') }}" method="POST">    
+                        <form action="{{ route('available.deleteAll') }}" method="POST">    
                         
                         @csrf
                         @method('DELETE')
@@ -40,10 +43,11 @@
                             <div class="row">
                                 <div class="col-lg-12 margin-tb">
                                     <div class="float-left">
+                                        <input type="hidden" value="{{ Crypt::encryptString($date->id) }}" name="date">
                                         <input class="btn btn-danger" type="submit" name="submit" value="Delete All Selected"/>
                                     </div>
                                     <div class="float-right">
-                                        <a class="btn btn-success" href="{{ route('date.create') }}"> Create New Day</a>
+                                        <a class="btn btn-success" href="{{ route('available.create') }}">Create New Day</a>
                                     </div>
                                 </div>
                             </div>
@@ -54,20 +58,29 @@
                                 <tr>
                                     <th class="text-center"> <input type="checkbox" id="checkAll"> </th>
                                     <th>No</th>
-                                    <th>Start</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
-                                @foreach ($dates as $date)
+                                @foreach ($available as $avail)
                                 @php
-                                    $days = $date->day->format("l jS F Y");
-
+                                    $start = $avail->start_time->format("h:i A");
+                                    $end = $avail->end_time->format("h:i A");
                                 @endphp
                                 <tr>
-                                    <td class="text-center"><input name='id[]' type="checkbox" id="checkItem" value="{{ Crypt::encryptString($date->id) }}">
+                                    <td class="text-center"><input name='id[]' type="checkbox" id="checkItem" value="{{ Crypt::encryptString($avail->id) }}">
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $days }}</td>
+                                    <td>{{ $start }}</td>
+                                    <td>{{ $end }}</td>
+                                    <td>@if($avail->available == 1)
+                                        Available
+                                        @else
+                                        Not Available
+                                        @endif
+                                    </td>
                                     <td>
-                                        <a class="btn btn-primary" href="{{ route('date.viewAll',$date) }}">See All</a>
+                                        <a class="btn btn-success" href="{{ route('available.edit',$avail) }}">Edit</a>
                                     </td>
                                 </tr>
                                 </form>
@@ -75,11 +88,11 @@
                             </table>
                         </div>    
                     <nav>
-                        Showing {{ $dates->firstItem() }} to {{ $dates->lastItem() }} of total {{$dates->total()}} entries
+                        Showing {{ $available->firstItem() }} to {{ $available->lastItem() }} of total {{$available->total()}} entries
                     </nav>
 
                     <ul class="pagination justify-content-center">
-                        {!! $dates->links() !!}
+                        {!! $available->links() !!}
                     </ul>
 
 

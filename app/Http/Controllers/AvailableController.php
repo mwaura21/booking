@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Available;
 use App\Models\Date;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class AvailableController extends Controller
 {
@@ -88,26 +89,28 @@ class AvailableController extends Controller
 
     public function deleteAll(Request $request)
     {
-        $available = $request->input('available');
+        $date = $request->input('date');
+        $decrypt_date = Crypt::decryptString($date);
 		$id = $request->id;
-
+        
         if(empty($id))
         {
             return redirect()->back()
             ->with('error-message','No entries selected');
         }
-		foreach ($id as $mavailableenu) 
+		foreach ($id as $available) 
 		{
+            $decrypt= Crypt::decryptString($available);
             $number = count($id);
 
-			Available::where('id', $available)->delete();
+			Available::where('id', $decrypt)->delete();
 		}
         if($number > 1)
         {
-		return redirect()->route('available.viewAll', [$available])
+		return redirect()->route('date.viewAll', [$decrypt_date])
                         ->with('message','Entries deleted successfully');
         }
-        return redirect()->route('available.viewAll', [$available])
+        return redirect()->route('date.viewAll', [$decrypt_date])
         ->with('message','Entry deleted successfully');
     }
 }

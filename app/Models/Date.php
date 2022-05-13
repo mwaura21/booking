@@ -10,8 +10,6 @@ class Date extends Model
     use HasFactory;
 
     protected $table = 'date';
-
-    protected $fillable = [
-        'date'
-    ];
+    protected $fillable = ['day'];
+    protected $dates = ['day'];
 }

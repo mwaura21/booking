@@ -10,8 +10,6 @@ class Book extends Model
     use HasFactory;
 
     protected $table = 'booking';
-
-    protected $fillable = [
-        'name', 'start_date', 'end_date', 'available'
-    ];
+    protected $fillable = ['name', 'start', 'end', 'available'];
+    protected $dates = ['start', 'end'];
 }

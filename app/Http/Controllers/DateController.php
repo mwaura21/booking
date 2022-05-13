@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Date;
 use App\Models\Available;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class DateController extends Controller
 {
@@ -25,7 +26,7 @@ class DateController extends Controller
      */
     public function create()
     {
-        //
+        return view('available.create');
     }
 
     /**
@@ -36,7 +37,14 @@ class DateController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'day' => 'required',
+        ]);
+        
+        Date::create($request->all());
+     
+        return redirect()->route('available.index')
+                        ->with('message','Day created successfully.');
     }
 
     /**
@@ -87,7 +95,6 @@ class DateController extends Controller
     public function viewAll(Request $request, Date $date)
     {
         $available = Available::latest()->where('date_id', $date->id)->paginate(5);
-        $date = $date->id;
         
         return view('available.view',compact('date', 'available'));
     }
@@ -95,6 +102,7 @@ class DateController extends Controller
     public function deleteAll(Request $request)
     {
 		$id = $request->id;
+
         if(empty($id))
         {
             return redirect()->back()
@@ -102,9 +110,10 @@ class DateController extends Controller
         }
 		foreach ($id as $date) 
 		{
+            $decrypt= Crypt::decryptString($date);
             $number = count($id);
 
-			Date::where('id', $date)->delete();
+			Date::where('id', $decrypt)->delete();
 		}
         if($number > 1)
         {
