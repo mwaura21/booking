@@ -15,6 +15,9 @@
                                 @endphp
                                 <h2>{{ $days }}</h2>
                             </div>
+                            <div class="float-right">
+                                <a class="btn btn-success" href="{{ route('available.index') }}">Back</a>
+                            </div>
                         </div>
                     </div>
                 
@@ -47,7 +50,7 @@
                                         <input class="btn btn-danger" type="submit" name="submit" value="Delete All Selected"/>
                                     </div>
                                     <div class="float-right">
-                                        <a class="btn btn-success" href="{{ route('available.create') }}">Create New Day</a>
+                                        <a class="btn btn-success" href="{{ route('available.create') }}">Create New Time</a>
                                     </div>
                                 </div>
                             </div>

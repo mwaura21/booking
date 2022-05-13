@@ -57,21 +57,40 @@
                 </div>
             </div>
         
-            <form action="{{ route('category.store') }}" method="POST">
+            <form action="{{ route('available.store') }}" method="POST">
                 @csrf
             
                 <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
-                            <strong>Name</strong>
-                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Name" value="{{ old('name') }}" autofocus>
+                            @php
+                                $date = date('Y-m-d');
+                            @endphp
+                            <strong>Start Time</strong>
+                            <input placeholder="Start Time" type="time" name="start_time" class="form-control @error('start_time') is-invalid @enderror" min="{{ $date }}" autofocus>
                         </div>
 
-                        @error('title')
+                        @error('start_time')
                             <div class="text-danger mb-3">{{ $message }}</div>
                         @enderror
 
                     </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            @php
+                                $date = date('Y-m-d');
+                            @endphp
+                            <strong>End Time</strong>
+                            <input placeholder="End Time" type="time" name="end_time" class="form-control @error('end_time') is-invalid @enderror" autofocus>
+                        </div>
+
+                        @error('end_time')
+                            <div class="text-danger mb-3">{{ $message }}</div>
+                        @enderror
+
+                    </div>
+
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                         <button type="submit" class="btn btn-success">Save</button>
                     </div>

@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Route::resource('available', App\Http\Controllers\AvailableController::class);
 Route::get('viewAll/{date}/date', [App\Http\Controllers\DateController::class, 'viewAll'])->name('date.viewAll');

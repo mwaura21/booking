@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-inverse navbar-dark">
     <!-- Brand -->
-    <a class="navbar-brand" href="">Manage</a>
+    <a class="navbar-brand" href="{{ route('home') }}">Manage</a>
 
     <!-- Toggler/collapsibe Button -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -11,13 +11,13 @@
     <div class="collapse navbar-collapse justify-content-center" id="collapsibleNavbar">
         <ul class="nav navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="">Home</a>
+                <a class="nav-link" href="{{ route('home') }}">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Bookings</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Available</a>
+                <a class="nav-link" href="{{ route('available.index') }}">Available</a>
             </li>
         </ul>
     </div>
