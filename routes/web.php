@@ -16,3 +16,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('available', App\Http\Controllers\AvailableController::class);
+Route::get('viewAll/{date}/date', [App\Http\Controllers\DateController::class, 'viewAll'])->name('date.viewAll');
+Route::delete('available', [App\Http\Controllers\AvailableController::class, 'deleteAll'])->name('available.deleteAll');
+
+
+Route::delete('date', [App\Http\Controllers\DateController::class, 'deleteAll'])->name('date.deleteAll');

@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Available extends Model
+class Date extends Model
 {
     use HasFactory;
 
-    protected $table = 'available';
+    protected $table = 'date';
 
     protected $fillable = [
-        'date_id', 'start_date', 'end_date'
+        'date'
     ];
 }

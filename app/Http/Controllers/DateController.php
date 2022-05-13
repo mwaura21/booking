@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Available;
 use App\Models\Date;
+use App\Models\Available;
 use Illuminate\Http\Request;
 
-class AvailableController extends Controller
+class DateController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,7 @@ class AvailableController extends Controller
      */
     public function index()
     {
-        $dates = Date::latest()->paginate(5);
-        
-        return view('available.index',compact('dates'));
+        //
     }
 
     /**
@@ -44,10 +42,10 @@ class AvailableController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Available  $available
+     * @param  \App\Models\Date  $date
      * @return \Illuminate\Http\Response
      */
-    public function show(Available $available)
+    public function show(Date $date)
     {
         //
     }
@@ -55,10 +53,10 @@ class AvailableController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Available  $available
+     * @param  \App\Models\Date  $date
      * @return \Illuminate\Http\Response
      */
-    public function edit(Available $available)
+    public function edit(Date $date)
     {
         //
     }
@@ -67,10 +65,10 @@ class AvailableController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Available  $available
+     * @param  \App\Models\Date  $date
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Available $available)
+    public function update(Request $request, Date $date)
     {
         //
     }
@@ -78,36 +76,42 @@ class AvailableController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Available  $available
+     * @param  \App\Models\Date  $date
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Available $available)
+    public function destroy(Date $date)
     {
         //
     }
 
+    public function viewAll(Request $request, Date $date)
+    {
+        $available = Available::latest()->where('date_id', $date->id)->paginate(5);
+        $date = $date->id;
+        
+        return view('available.view',compact('date', 'available'));
+    }
+    
     public function deleteAll(Request $request)
     {
-        $available = $request->input('available');
 		$id = $request->id;
-
         if(empty($id))
         {
             return redirect()->back()
             ->with('error-message','No entries selected');
         }
-		foreach ($id as $mavailableenu) 
+		foreach ($id as $date) 
 		{
             $number = count($id);
 
-			Available::where('id', $available)->delete();
+			Date::where('id', $date)->delete();
 		}
         if($number > 1)
         {
-		return redirect()->route('available.viewAll', [$available])
-                        ->with('message','Entries deleted successfully');
+		return redirect()->route('available.index')
+                        ->with('message','Dates deleted successfully');
         }
-        return redirect()->route('available.viewAll', [$available])
-        ->with('message','Entry deleted successfully');
+        return redirect()->route('available.index')
+                        ->with('message','Date deleted successfully');
     }
 }
